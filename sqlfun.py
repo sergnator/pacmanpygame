@@ -3,7 +3,7 @@ from BaseClasses import *
 
 
 def new_user(username):
-    """создания нового пользователя"""
+    """создание нового пользователя"""
     con = sqlite3.connect(Constants.DataBaseOfScore)
     cur = con.cursor()
     req = f"insert into score(name, max_time, map_of_max_time) values('{username}', 'unknown', 'unknown')"
