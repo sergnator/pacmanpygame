@@ -1,4 +1,6 @@
 import sqlite3
+import os
+
 from BaseClasses import *
 
 
@@ -33,8 +35,12 @@ def get_users():
     con = sqlite3.connect(Constants.DataBaseOfScore)
     cur = con.cursor()
     req = f"select * from score"
-    users = cur.execute(req).fetchall()
+    users = cur.execute(req).fetchall()  # [(id, name, record_time, record_map), ...]
     con.close()
     return users
 
 
+def get_maps():
+    """названия всех карт"""
+    all_maps = list(map(lambda x: x[:-4], os.listdir(Constants.Maps)))
+    return all_maps
