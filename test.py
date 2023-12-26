@@ -3,4 +3,4 @@ from start_menu import *
 pygame.init()
 size = 500, 500
 screen = pygame.display.set_mode(size)
-game_over(screen)
+game_win(screen)

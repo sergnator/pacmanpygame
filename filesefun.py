@@ -25,7 +25,7 @@ def new_record(username, name_map, record):
     users = get_users()
     for el in users:
         if el[Constants.name_key] == username:
-            if el[Constants.record_time_key] <= record:
+            if el[Constants.record_time_key] >= record:
                 return -1
     con = sqlite3.connect(Constants.DataBaseOfScore)
     cur = con.cursor()
