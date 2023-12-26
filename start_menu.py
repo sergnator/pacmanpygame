@@ -233,3 +233,34 @@ def game_over(screen: pygame.Surface):
     return [x, clock, screen.get_size()[0], sound]
 
 
+@add_button_back
+def game_win(screen, record, username, map):
+    res = new_record(username, record, map)
+    intro = ['CONGRATULATIONS!!!', record]
+    sound = pygame.mixer.Sound(Constants.Music + 'gamewin.mp3')
+    if res != -1:
+        intro.append('NEW RECORD!!!')
+
+    def check(event, args):
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+        elif event.type == pygame.KEYUP:
+            if event.key == pygame.K_ESCAPE:
+                return 'return'
+
+    def draw(args):
+        sound = args[0]
+        texts = args[1]
+        width = args[2]
+        font = pygame.font.Font(None, 50)
+        if args[3] is not None:
+            sound.play()
+            args[3] = None
+
+        for text in texts:
+            text_render = font.render(text, 1, pygame.Color('yellow'))
+            rect = text_render.get_rect()
+            rect.x = width // 2 - rect.w
+            rect.y = width // 2
+            screen.blit(text_render, rect)
