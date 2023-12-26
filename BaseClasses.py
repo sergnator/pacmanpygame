@@ -22,6 +22,7 @@ class Constants:
     name_key = 1
     record_time_key = 2
     record_map_key = 3
+    Music = 'data/music/'
 
 
 class HelpFunctions:

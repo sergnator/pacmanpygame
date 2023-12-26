@@ -22,6 +22,11 @@ def new_user(username):
 
 def new_record(username, name_map, record):
     """изменение рекорда"""
+    users = get_users()
+    for el in users:
+        if el[Constants.name_key] == username:
+            if el[Constants.record_time_key] <= record:
+                return -1
     con = sqlite3.connect(Constants.DataBaseOfScore)
     cur = con.cursor()
     req = f"update score\nset max_time = '{record}',\nmap_of_max_time = '{name_map}'\nwhere name = '{username}'"

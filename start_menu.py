@@ -1,5 +1,5 @@
 import sys
-from BaseClasses import *
+
 from filesefun import *
 import pygame
 
@@ -18,7 +18,9 @@ def add_button_back(func):
         args = func(screen)
         while True:
             for event in pygame.event.get():
-                check(event, args)
+                command = check(event, args)
+                if command == 'return':
+                    return
                 if event.type == pygame.MOUSEBUTTONUP:
                     if (event.pos[0] in list(range(10, 10 + rect_QUIT.w)) and
                             event.pos[1] in range(10, 10 + rect_QUIT.h)):
@@ -71,7 +73,6 @@ def get_name(screen: pygame.Surface):
         screen.blit(string_, rect)
 
         pygame.display.flip()
-
 
 
 def start_menu(screen: pygame.Surface):
@@ -191,3 +192,44 @@ def change_map(screen: pygame.Surface):
 def load_map(map_name):
     with open(Constants.Maps + map_name + '.txt', ) as f:
         data = f.readlines()
+
+
+@add_button_back
+def game_over(screen: pygame.Surface):
+    global check
+    global draw
+    x = 0
+    clock = pygame.time.Clock()
+    sound = pygame.mixer.Sound(Constants.Music + 'gameover.mp3')
+
+    def check(event, args):
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+        elif event.type == pygame.KEYUP:
+            if event.key == pygame.K_ESCAPE:
+                return 'return'
+
+    def draw(args):
+        if args[3] is not None:
+            sound.play()
+            args[3] = None
+        x = args[0]
+        clock = args[1]
+        width = args[2]
+        font = pygame.font.Font(None, 50)
+        string_render = font.render('GAME OVER', 1, pygame.Color('red'))
+        rect = string_render.get_rect()
+        if x < width / 2 + rect.w / 2:
+            rect.x = x - rect.w
+            x += 270 * clock.tick() / 1000
+        else:
+            rect.x = width / 2 - rect.w / 2
+        rect.y = width / 2
+        args[0] = x
+        args[1] = clock
+        screen.blit(string_render, rect)
+
+    return [x, clock, screen.get_size()[0], sound]
+
+
