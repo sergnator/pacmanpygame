@@ -6,7 +6,7 @@ import pygame
 
 def add_button_back(func):
     def new_func(screen: pygame.Surface):  # тут супер крутая схема(как мне показалось), короче этот декоратор добавляет
-        # кнопку назад, в функции, которая будет декодировать создаются два метода, которые будут вызываться в цикле
+        # кнопку назад, в функции, которая будет декодироватьcя, создаются два метода, которые будут вызываться в цикле
 
         font = pygame.font.Font(None, 30)
         string_render_button = font.render('back', 1, pygame.Color('blue'))
@@ -231,5 +231,3 @@ def game_over(screen: pygame.Surface):
         screen.blit(string_render, rect)
 
     return [x, clock, screen.get_size()[0], sound]
-
-
