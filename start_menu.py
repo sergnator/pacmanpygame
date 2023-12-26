@@ -4,34 +4,42 @@ from filesefun import *
 import pygame
 
 
-def add_button_back(func):
-    def new_func(screen: pygame.Surface):  # тут супер крутая схема(как мне показалось), короче этот декоратор добавляет
-        # кнопку назад, в функции, которая будет декодироватьcя, создаются два метода, которые будут вызываться в цикле
+def add_button_back(back_image=None):
+    def actual(func):
+        def new_func(screen: pygame.Surface, *args, back_image=back_image):
 
-        font = pygame.font.Font(None, 30)
-        string_render_button = font.render('back', 1, pygame.Color('blue'))
-        rect_QUIT = string_render_button.get_rect()
-        rect_QUIT.x = 20
-        rect_QUIT.y = 20
-        rect_QUIT.w += 10
-        rect_QUIT.h += 20
-        args = func(screen)
-        while True:
-            for event in pygame.event.get():
-                command = check(event, args)
-                if command == 'return':
-                    return
-                if event.type == pygame.MOUSEBUTTONUP:
-                    if (event.pos[0] in list(range(10, 10 + rect_QUIT.w)) and
-                            event.pos[1] in range(10, 10 + rect_QUIT.h)):
-                        screen.fill((0, 0, 0))
+            if back_image is None:
+                back_image = pygame.Surface(screen.get_size(), pygame.SRCALPHA, 32)
+                pygame.draw.rect(back_image, (0, 0, 0), (0, 0, *screen.get_size()))
+            elif back_image == 'screen':
+                back_image = pygame.Surface(screen.get_size(), pygame.SRCALPHA, 32)
+                back_image = screen.convert(back_image)
+            font = pygame.font.Font(None, 30)
+            string_render_button = font.render('back', 1, pygame.Color('blue'))
+            rect_QUIT = string_render_button.get_rect()
+            rect_QUIT.x = 20
+            rect_QUIT.y = 20
+            rect_QUIT.w += 10
+            rect_QUIT.h += 20
+            args_ = func(screen, *args)
+            while True:
+                for event in pygame.event.get():
+                    command = check(event, args_)
+                    if command == 'return':
                         return
-            screen.fill((0, 0, 0))
-            screen.blit(string_render_button, rect_QUIT)
-            draw(args)
-            pygame.display.flip()
+                    if event.type == pygame.MOUSEBUTTONUP:
+                        if (event.pos[0] in list(range(10, 10 + rect_QUIT.w)) and
+                                event.pos[1] in range(10, 10 + rect_QUIT.h)):
+                            screen.fill((0, 0, 0))
+                            return
+                screen.blit(back_image, back_image.get_rect())
+                screen.blit(string_render_button, rect_QUIT)
+                draw(args_)
+                pygame.display.flip()
 
-    return new_func
+        return new_func
+
+    return actual
 
 
 def get_name(screen: pygame.Surface):
@@ -115,7 +123,7 @@ def start_menu(screen: pygame.Surface):
             pygame.display.flip()
 
 
-@add_button_back
+@add_button_back()
 def score_menu(screen: pygame.Surface):
     users = get_users()
     users.sort(key=lambda x: int(x[Constants.record_time_key]))
@@ -153,7 +161,7 @@ def score_menu(screen: pygame.Surface):
     return [texts, color]
 
 
-@add_button_back
+@add_button_back()
 def change_map(screen: pygame.Surface):
     maps = get_maps()
     font = pygame.font.Font(None, 30)
@@ -194,7 +202,7 @@ def load_map(map_name):
         data = f.readlines()
 
 
-@add_button_back
+@add_button_back()
 def game_over(screen: pygame.Surface):
     global check
     global draw
@@ -233,9 +241,11 @@ def game_over(screen: pygame.Surface):
     return [x, clock, screen.get_size()[0], sound]
 
 
-@add_button_back
+@add_button_back(back_image='screen')
 def game_win(screen, record, username, map):
-    res = new_record(username, record, map)
+    global check
+    global draw
+    res = new_record(username, map, record)
     intro = ['CONGRATULATIONS!!!', record]
     sound = pygame.mixer.Sound(Constants.Music + 'gamewin.mp3')
     if res != -1:
@@ -254,13 +264,15 @@ def game_win(screen, record, username, map):
         texts = args[1]
         width = args[2]
         font = pygame.font.Font(None, 50)
-        if args[3] is not None:
+        if args[0] is not None:
             sound.play()
-            args[3] = None
+            args[0] = None
 
-        for text in texts:
-            text_render = font.render(text, 1, pygame.Color('yellow'))
+        for i in range(len(texts)):
+            text_render = font.render(texts[i], 1, pygame.Color('yellow'))
             rect = text_render.get_rect()
-            rect.x = width // 2 - rect.w
-            rect.y = width // 2
+            rect.x = width // 2 - rect.w // 2
+            rect.y = 100 + 50 * i
             screen.blit(text_render, rect)
+
+    return [sound, intro, screen.get_size()[0]]
