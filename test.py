@@ -1,7 +1,6 @@
-from start_menu import *
+from setup_exeption_handler import *
 
 pygame.init()
-size = 500, 500
-screen = pygame.display.set_mode(size)
-screen.fill((255, 0, 255))
-game_win(screen, '1', 'ser', '123')
+screen = pygame.display.set_mode((500, 500))
+setup_handler()
+raise ValueError()

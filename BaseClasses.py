@@ -2,6 +2,7 @@ import os
 import sys
 import pygame
 
+
 # исключения
 class BasePacmanExceptionsGroup(Exception):
     pass
