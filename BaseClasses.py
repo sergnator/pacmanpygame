@@ -42,3 +42,7 @@ class HelpFunctions:
         else:
             image = image.convert_alpha()
         return image
+
+
+
+
