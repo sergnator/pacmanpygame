@@ -9,6 +9,7 @@ class Wall(pygame.sprite.Sprite):
         pygame.draw.rect(self.image, pygame.Color('blue'), (0, 0, w, h))
         self.rect = pygame.Rect(x, y, w, h)
 
+
 class AnimatedSprite(pygame.sprite.Sprite):
     def __init__(self, sheet, columns, rows, x, y, group):
         super().__init__(group)
@@ -36,8 +37,8 @@ class Pacman(AnimatedSprite):
 
     def __init__(self, x, y, group):
         super().__init__(HelpFunctions.load_image('pacman.png'), 4, 1, x, y, group)
-        self.vx = 0
-        self.vy = -10
+        self.vx = -10
+        self.vy = 0
         self.group = group
 
     def update(self):
@@ -51,3 +52,21 @@ class Pacman(AnimatedSprite):
             self.image = pygame.transform.rotate(self.frames[self.cur_frame], 90)
         elif self.vy > 0:
             self.image = pygame.transform.rotate(self.frames[self.cur_frame], -90)
+
+
+class Ghost(AnimatedSprite):
+
+    def __init__(self, x, y, group):
+        surface = HelpFunctions.load_image("red_ghost.png")
+        super().__init__(pygame.transform.scale(surface, (128,  64)), 2, 1, x, y, group)
+        self.vx = -7
+        self.vy = 0
+        self.group = group
+
+    def update(self):
+        super().update()
+        self.rect = self.rect.move(self.vx, self.vy)
+        if self.vx < 0:
+            self.image = pygame.transform.flip(self.frames[self.cur_frame], True, False)
+        elif self.vx > 0:
+            self.image = self.frames[self.cur_frame]
