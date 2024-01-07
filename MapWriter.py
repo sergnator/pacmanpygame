@@ -23,6 +23,6 @@ def generate_level(level, all_sprites):
             elif level[y][x] == '@':
                 new_player = Pacman(x, y, all_sprites)
             elif level[y][x] == 'R':
-                red_ghost = Ghost(x, y, all_sprites)
+                red_ghost = Ghost('red_ghost', x, y, all_sprites)
     # вернем игрока, а также размер поля в клетках
     return new_player, x, y

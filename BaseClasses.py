@@ -30,7 +30,7 @@ class HelpFunctions:
         else:
             image = image.convert_alpha()
         return image
-
+    @staticmethod
     def load_level(filename):
         filename = "data/" + filename
         # читаем уровень, убирая символы перевода строки

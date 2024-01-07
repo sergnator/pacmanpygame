@@ -12,13 +12,20 @@ class Wall(pygame.sprite.Sprite):
 
 
 class AnimatedSprite(pygame.sprite.Sprite):
-    def __init__(self, sheet, columns, rows, x, y, group):
+    def __init__(self, sheet, columns, rows, x, y, group, is_gost=False):
         super().__init__(group)
         self.frames = []
-        self.cut_sheet(pygame.transform.scale(sheet, (CellWidth * columns, CellHeight * rows)), columns, rows)
+        if is_gost:
+            self.cut_sheet(pygame.transform.scale(sheet, (CellWidth * columns * 2, CellHeight * rows * 2)), columns,
+                           rows)
+        else:
+            self.cut_sheet(pygame.transform.scale(sheet, (CellWidth * columns, CellHeight * rows)), columns, rows)
         self.cur_frame = 0
         self.image = self.frames[self.cur_frame]
-        self.rect = self.rect.move(x * CellWidth, y * CellHeight)
+        if is_gost:
+            self.rect = self.rect.move(x * CellWidth - 10, y * CellHeight / 2 - 10)
+        else:
+            self.rect = self.rect.move(x * CellWidth, y * CellHeight)
 
     def cut_sheet(self, sheet, columns, rows):
         self.rect = pygame.Rect(0, 0, sheet.get_width() // columns,
@@ -57,9 +64,9 @@ class Pacman(AnimatedSprite):
 
 class Ghost(AnimatedSprite):
 
-    def __init__(self, x, y, group):
-        surface = HelpFunctions.load_image("red_ghost.png")
-        super().__init__(surface, 2, 1, x, y, group)
+    def __init__(self, name, x, y, group):
+        surface = HelpFunctions.load_image(f"{name}.png")
+        super().__init__(surface, 2, 1, x, y, group, is_gost=True)
         self.vx = 0
         self.vy = 0
         self.group = group
@@ -69,5 +76,6 @@ class Ghost(AnimatedSprite):
         self.rect = self.rect.move(self.vx, self.vy)
         if self.vx < 0:
             self.image = pygame.transform.flip(self.frames[self.cur_frame], True, False)
-        elif self.vx > 0:
+
+        elif self.vx >= 0:
             self.image = self.frames[self.cur_frame]
