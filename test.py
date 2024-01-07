@@ -1,7 +1,10 @@
 import pprint
+
+import pygame.time
+
 from MapWriter import *
 pygame.init()
-size = 500, 500
+size = 700, 700
 screen = pygame.display.set_mode(size)
 screen.fill((0, 0, 0))
 group = pygame.sprite.Group()
@@ -9,6 +12,7 @@ group = pygame.sprite.Group()
 gaming = True
 player, level_x, level_y = generate_level(load_level('map.txt'), group)
 pprint.pprint(group.sprites())
+pygame.time.Clock = 15
 while gaming:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:

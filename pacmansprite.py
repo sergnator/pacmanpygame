@@ -1,23 +1,24 @@
 import pygame
 from BaseClasses import HelpFunctions
+from Constants import CellWidth, CellHeight
 
 
 class Wall(pygame.sprite.Sprite):
-    def __init__(self, x, y, w, h, group):
+    def __init__(self, x, y, group):
         super().__init__(group)
-        self.image = pygame.Surface((w, h), pygame.SRCALPHA, 32)
-        pygame.draw.rect(self.image, pygame.Color('blue'), (0, 0, w, h))
-        self.rect = pygame.Rect(x * w, y * h, w, h)
+        self.image = pygame.Surface((CellWidth, CellHeight), pygame.SRCALPHA, 32)
+        pygame.draw.rect(self.image, pygame.Color('blue'), (0, 0, CellWidth, CellHeight))
+        self.rect = pygame.Rect(x * CellWidth, y * CellHeight, CellWidth, CellHeight)
 
 
 class AnimatedSprite(pygame.sprite.Sprite):
     def __init__(self, sheet, columns, rows, x, y, group):
         super().__init__(group)
         self.frames = []
-        self.cut_sheet(sheet, columns, rows)
+        self.cut_sheet(pygame.transform.scale(sheet, (CellWidth * columns, CellHeight * rows)), columns, rows)
         self.cur_frame = 0
         self.image = self.frames[self.cur_frame]
-        self.rect = self.rect.move(x, y)
+        self.rect = self.rect.move(x * CellWidth, y * CellHeight)
 
     def cut_sheet(self, sheet, columns, rows):
         self.rect = pygame.Rect(0, 0, sheet.get_width() // columns,
@@ -58,8 +59,8 @@ class Ghost(AnimatedSprite):
 
     def __init__(self, x, y, group):
         surface = HelpFunctions.load_image("red_ghost.png")
-        super().__init__(pygame.transform.scale(surface, (128,  64)), 2, 1, x, y, group)
-        self.vx = -7
+        super().__init__(surface, 2, 1, x, y, group)
+        self.vx = 0
         self.vy = 0
         self.group = group
 
