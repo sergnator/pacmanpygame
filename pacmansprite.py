@@ -7,7 +7,7 @@ class Wall(pygame.sprite.Sprite):
         super().__init__(group)
         self.image = pygame.Surface((w, h), pygame.SRCALPHA, 32)
         pygame.draw.rect(self.image, pygame.Color('blue'), (0, 0, w, h))
-        self.rect = pygame.Rect(x, y, w, h)
+        self.rect = pygame.Rect(x * w, y * h, w, h)
 
 
 class AnimatedSprite(pygame.sprite.Sprite):
@@ -37,7 +37,7 @@ class Pacman(AnimatedSprite):
 
     def __init__(self, x, y, group):
         super().__init__(HelpFunctions.load_image('pacman.png'), 4, 1, x, y, group)
-        self.vx = -10
+        self.vx = 0
         self.vy = 0
         self.group = group
 

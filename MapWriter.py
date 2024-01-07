@@ -1,9 +1,8 @@
-import pacmansprite
 from pacmansprite import *
 
 
 def load_level(filename):
-    filename = "data/" + filename
+    filename = "data/maps/" + filename
     # читаем уровень, убирая символы перевода строки
     with open(filename, 'r') as mapFile:
         level_map = [line.strip() for line in mapFile]
@@ -15,25 +14,13 @@ def load_level(filename):
     return list(map(lambda x: x.ljust(max_width, '.'), level_map))
 
 
-
-# основной персонаж
-player = None
-
-# группы спрайтов
-all_sprites = pygame.sprite.Group()
-tiles_group = pygame.sprite.Group()
-player_group = pygame.sprite.Group()
-
-def generate_level(level):
+def generate_level(level, all_sprites):
     new_player, x, y = None, None, None
     for y in range(len(level)):
         for x in range(len(level[y])):
-            if level[y][x] == '.':
-                Tile('empty', x, y)
-            elif level[y][x] == '#':
-                Tile('wall', x, y)
+            if level[y][x] == '#':
+                Wall(x, y, 16, 16, all_sprites)
             elif level[y][x] == '@':
-                Tile('empty', x, y)
-                new_player = Player(x, y)
+                new_player = Pacman(x, y, all_sprites)
     # вернем игрока, а также размер поля в клетках
     return new_player, x, y
