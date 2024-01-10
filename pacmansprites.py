@@ -1,4 +1,5 @@
 import pygame
+
 from BaseClasses import HelpFunctions
 from Constants import CellWidth, CellHeight
 
@@ -79,3 +80,14 @@ class Ghost(AnimatedSprite):
 
         elif self.vx >= 0:
             self.image = self.frames[self.cur_frame]
+
+
+class Coin(pygame.sprite.Sprite):
+    def __init__(self, x, y, group):
+        super().__init__(*group)
+        self.image = pygame.surface.Surface((CellWidth, CellHeight), pygame.SRCALPHA, 32)
+        pygame.draw.circle(self.image, pygame.Color('orange'), (0.5 * CellWidth, 0.5 * CellHeight), 2)
+        self.rect = self.image.get_rect()
+        self.rect.x = CellWidth * x
+        self.rect.y = CellHeight * y
+

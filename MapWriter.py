@@ -1,4 +1,4 @@
-from pacmansprite import *
+from pacmansprites import *
 
 
 def load_level(filename):
@@ -14,7 +14,8 @@ def load_level(filename):
     return list(map(lambda x: x.ljust(max_width, '.'), level_map))
 
 
-def generate_level(level, all_sprites):
+def generate_level(level, all_sprites, coins):
+    level = load_level(level)
     new_player, x, y = None, None, None
     for y in range(len(level)):
         for x in range(len(level[y])):
@@ -24,5 +25,7 @@ def generate_level(level, all_sprites):
                 new_player = Pacman(x, y, all_sprites)
             elif level[y][x] == 'R':
                 red_ghost = Ghost('red_ghost', x, y, all_sprites)
+            elif level[y][x] == '.':
+                Coin(x, y, [coins, all_sprites])
     # вернем игрока, а также размер поля в клетках
     return new_player, x, y
