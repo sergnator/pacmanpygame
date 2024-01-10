@@ -1,5 +1,5 @@
 import os
-import sys
+
 import pygame
 import Constants
 
@@ -9,7 +9,11 @@ class BasePacmanExceptionsGroup(Exception):
     pass
 
 
-class NameTaken(BasePacmanExceptionsGroup):
+class NameNotTaken(BasePacmanExceptionsGroup):
+    pass
+
+
+class NotFoundFile(BasePacmanExceptionsGroup):
     pass
 
 
@@ -18,8 +22,7 @@ class HelpFunctions:
     def load_image(name, colorkey=None):
         fullname = Constants.Images + name
         if not os.path.isfile(fullname):
-            print(f"Файл с изображением '{fullname}' не найден")
-            sys.exit()
+            NotFoundFile('файл с названием: ' + name + ' не найден')
         image = pygame.image.load(fullname)
 
         if colorkey is not None:
@@ -30,16 +33,3 @@ class HelpFunctions:
         else:
             image = image.convert_alpha()
         return image
-    @staticmethod
-    def load_level(filename):
-        filename = "data/" + filename
-        # читаем уровень, убирая символы перевода строки
-        with open(filename, 'r') as mapFile:
-            level_map = [line.strip() for line in mapFile]
-
-        # и подсчитываем максимальную длину
-        max_width = max(map(len, level_map))
-
-        # дополняем каждую строку пустыми клетками ('.')
-        return list(map(lambda x: x.ljust(max_width, '.'), level_map))
-

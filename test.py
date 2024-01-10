@@ -1,24 +1,6 @@
-import pprint
+from setup_exeption_handler import *
 
-import pygame.time
-
-from MapWriter import *
 pygame.init()
-size = 700, 700
-screen = pygame.display.set_mode(size)
-screen.fill((0, 0, 0))
-group = pygame.sprite.Group()
-
-gaming = True
-player, level_x, level_y = generate_level(load_level('map.txt'), group)
-pprint.pprint(group.sprites())
-pygame.time.Clock = 15
-while gaming:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            gaming = False
-    screen.fill((25, 25, 25))
-    group.draw(screen)
-    group.update()
-    pygame.display.flip()
-pygame.quit()
+screen = pygame.display.set_mode((500, 500))
+setup_handler()
+raise ValueError()
