@@ -14,7 +14,7 @@ def new_user(username):
     except sqlite3.IntegrityError:
         ex = True
     if ex:
-        raise NameTaken('имя занято')
+        raise NameNotTaken('имя занято')
     con.commit()
     con.close()
 

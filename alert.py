@@ -1,4 +1,3 @@
-import pygame
 
 from start_menu import *
 
