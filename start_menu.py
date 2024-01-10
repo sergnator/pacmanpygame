@@ -111,6 +111,7 @@ def start_menu(screen: pygame.Surface, all_sprites):
                         sys.exit()
                     elif current_text % len(menu) == 0:
                         change_map(screen, all_sprites)
+                        return
 
         for word in menu:
             color = 'yellow' if menu.index(word) == current_text % len(menu) else 'blue'
@@ -193,9 +194,9 @@ def change_map(screen: pygame.Surface, all_sprites):
                 current_map -= 1 if current_map != 0 else 0
             elif event.key == pygame.K_RETURN:
                 generate_level(maps[current_map % len(maps)] + ".txt", all_sprites)
+                return 'return'
         args[0] = current_map
 
     return [current_map, all_sprites]
-
 
 
