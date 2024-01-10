@@ -8,7 +8,11 @@ class BasePacmanExceptionsGroup(Exception):
     pass
 
 
-class NameTaken(BasePacmanExceptionsGroup):
+class NameNotTaken(BasePacmanExceptionsGroup):
+    pass
+
+
+class NotFoundFile(BasePacmanExceptionsGroup):
     pass
 
 
@@ -31,8 +35,7 @@ class HelpFunctions:
     def load_image(name, colorkey=None):
         fullname = Constants.Images + name
         if not os.path.isfile(fullname):
-            print(f"Файл с изображением '{fullname}' не найден")
-            sys.exit()
+            NotFoundFile('файл с названием: ' + name + ' не найден')
         image = pygame.image.load(fullname)
 
         if colorkey is not None:
