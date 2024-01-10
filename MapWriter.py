@@ -15,6 +15,7 @@ def load_level(filename):
 
 
 def generate_level(level, all_sprites):
+    level = load_level(level)
     new_player, x, y = None, None, None
     for y in range(len(level)):
         for x in range(len(level[y])):

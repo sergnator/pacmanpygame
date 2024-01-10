@@ -1,6 +1,7 @@
 from filesefun import *
 import sys
 import pygame
+from MapWriter import generate_level
 
 
 def add_button_back(back_image=None):
@@ -82,7 +83,7 @@ def get_name(screen: pygame.Surface):
         pygame.display.flip()
 
 
-def start_menu(screen: pygame.Surface):
+def start_menu(screen: pygame.Surface, all_sprites):
     menu = ['start', 'score', 'quit']
     screen.fill((0, 0, 0))
     size = screen.get_size()
@@ -109,7 +110,7 @@ def start_menu(screen: pygame.Surface):
                         pygame.quit()
                         sys.exit()
                     elif current_text % len(menu) == 0:
-                        change_map(screen)
+                        change_map(screen, all_sprites)
 
         for word in menu:
             color = 'yellow' if menu.index(word) == current_text % len(menu) else 'blue'
@@ -161,7 +162,7 @@ def score_menu(screen: pygame.Surface):
 
 
 @add_button_back()
-def change_map(screen: pygame.Surface):
+def change_map(screen: pygame.Surface, all_sprites):
     maps = get_maps()
     font = pygame.font.Font(None, 30)
     size = screen.get_size()
@@ -180,6 +181,7 @@ def change_map(screen: pygame.Surface):
             screen.blit(string_render, rect)
 
     def check(event, args):
+        all_sprites = args[1]
         current_map = args[0]
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -190,15 +192,10 @@ def change_map(screen: pygame.Surface):
             elif event.key == pygame.K_UP:
                 current_map -= 1 if current_map != 0 else 0
             elif event.key == pygame.K_RETURN:
-                load_map(maps[current_map % len(maps)])
+                generate_level(maps[current_map % len(maps)] + ".txt", all_sprites)
         args[0] = current_map
 
-    return [current_map]
-
-
-def load_map(map_name):
-    with open(Constants.Maps + map_name + '.txt', ) as f:
-        data = f.readlines()
+    return [current_map, all_sprites]
 
 
 
