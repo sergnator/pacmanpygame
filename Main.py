@@ -8,7 +8,7 @@ screen = pygame.display.set_mode((700, 700))
 
 name = get_name(screen)
 
-start_menu(screen, all_sprites)
+pacman, x, y = start_menu(screen, all_sprites)
 
 
 game = True

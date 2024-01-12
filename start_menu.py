@@ -149,8 +149,8 @@ def change_map(screen: pygame.Surface, all_sprites):
             elif event.key == pygame.K_UP:
                 current_map -= 1 if current_map != 0 else 0
             elif event.key == pygame.K_RETURN:
-                generate_level(maps[current_map % len(maps)] + ".txt", all_sprites)
-                return 'return'
+                a = generate_level(maps[current_map % len(maps)] + ".txt", all_sprites)
+                return ['return', a]
         args[0] = current_map
 
     args = [current_map, all_sprites]
@@ -177,6 +177,8 @@ def add_button_back(args_for_func, draw, check, screen, back_image=None):
             command = check(event, args_for_func)
             if command == 'return':
                 return
+            if type(command) == list:
+                return command[1]
             if event.type == pygame.MOUSEBUTTONUP:
                 if (event.pos[0] in list(range(10, 10 + rect_QUIT.w)) and
                         event.pos[1] in range(10, 10 + rect_QUIT.h)):
