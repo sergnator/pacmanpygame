@@ -1,11 +1,7 @@
-
 from start_menu import *
 
 
-@add_button_back()
 def game_over(screen: pygame.Surface):
-    global check
-    global draw
     x = 0
     clock = pygame.time.Clock()
     sound = pygame.mixer.Sound(Constants.Music + 'gameover.mp3')
@@ -38,10 +34,10 @@ def game_over(screen: pygame.Surface):
         args[1] = clock
         screen.blit(string_render, rect)
 
-    return [x, clock, screen.get_size()[0], sound]
+    args = [x, clock, screen.get_size()[0], sound]
+    add_button_back(args, draw, check, screen, back_image='screen')
 
 
-@add_button_back(back_image='screen')
 def game_win(screen, record, username, map):
     global check
     global draw
@@ -75,7 +71,9 @@ def game_win(screen, record, username, map):
             rect.y = 100 + 50 * i
             screen.blit(text_render, rect)
 
-    return [sound, intro, screen.get_size()[0]]
+    args = [sound, intro, screen.get_size()[0]]
+
+    add_button_back(args, draw, check, screen, back_image='screen')
 
 
 def alert_of_error(error_text, screen):
