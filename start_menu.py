@@ -72,8 +72,7 @@ def start_menu(screen: pygame.Surface, all_sprites):
                         pygame.quit()
                         sys.exit()
                     elif current_text % len(menu) == 0:
-                        change_map(screen, all_sprites)
-                        return
+                        return change_map(screen, all_sprites)
 
         for word in menu:
             color = 'yellow' if menu.index(word) == current_text % len(menu) else 'blue'
@@ -155,7 +154,7 @@ def change_map(screen: pygame.Surface, all_sprites):
         args[0] = current_map
 
     args = [current_map, all_sprites]
-    add_button_back(args, draw, check, screen)
+    return add_button_back(args, draw, check, screen)
 
 
 def add_button_back(args_for_func, draw, check, screen, back_image=None):
