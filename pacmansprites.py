@@ -8,8 +8,8 @@ class Wall(pygame.sprite.Sprite):
     def __init__(self, x, y, group):
         super().__init__(group)
         self.image = pygame.Surface((CellWidth, CellHeight), pygame.SRCALPHA, 32)
-        pygame.draw.rect(self.image, pygame.Color('blue'), (0, 0, CellWidth, CellHeight))
-        self.rect = pygame.Rect(x * CellWidth, y * CellHeight, CellWidth, CellHeight)
+        pygame.draw.rect(self.image, pygame.Color('blue'), (0, 0, CellWidth - 10, CellHeight - 10))
+        self.rect = pygame.Rect(x * CellWidth + 5, y * CellHeight + 5, CellWidth, CellHeight)
 
 
 class AnimatedSprite(pygame.sprite.Sprite):
@@ -24,7 +24,7 @@ class AnimatedSprite(pygame.sprite.Sprite):
         self.cur_frame = 0
         self.image = self.frames[self.cur_frame]
         if is_gost:
-            self.rect = self.rect.move(x * CellWidth - 10, y * CellHeight / 2 - 10)
+            self.rect = self.rect.move(x * CellWidth - 10, y * CellHeight - 10)
         else:
             self.rect = self.rect.move(x * CellWidth, y * CellHeight)
 
