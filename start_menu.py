@@ -1,45 +1,7 @@
-from filesefun import *
 import sys
-import pygame
+
 from MapWriter import generate_level
-
-
-def add_button_back(back_image=None):
-    def actual(func):
-        def new_func(screen: pygame.Surface, *args, back_image=back_image):
-
-            if back_image is None:
-                back_image = pygame.Surface(screen.get_size(), pygame.SRCALPHA, 32)
-                pygame.draw.rect(back_image, (0, 0, 0), (0, 0, *screen.get_size()))
-            elif back_image == 'screen':
-                back_image = pygame.Surface(screen.get_size(), pygame.SRCALPHA, 32)
-                back_image = screen.convert(back_image)
-            font = pygame.font.Font(None, 30)
-            string_render_button = font.render('back', 1, pygame.Color('blue'))
-            rect_QUIT = string_render_button.get_rect()
-            rect_QUIT.x = 20
-            rect_QUIT.y = 20
-            rect_QUIT.w += 10
-            rect_QUIT.h += 20
-            args_ = func(screen, *args)
-            while True:
-                for event in pygame.event.get():
-                    command = check(event, args_)
-                    if command == 'return':
-                        return
-                    if event.type == pygame.MOUSEBUTTONUP:
-                        if (event.pos[0] in list(range(10, 10 + rect_QUIT.w)) and
-                                event.pos[1] in range(10, 10 + rect_QUIT.h)):
-                            screen.fill((0, 0, 0))
-                            return
-                screen.blit(back_image, back_image.get_rect())
-                screen.blit(string_render_button, rect_QUIT)
-                draw(args_)
-                pygame.display.flip()
-
-        return new_func
-
-    return actual
+from filesefun import *
 
 
 def get_name(screen: pygame.Surface):
@@ -124,7 +86,6 @@ def start_menu(screen: pygame.Surface, all_sprites):
             pygame.display.flip()
 
 
-@add_button_back()
 def score_menu(screen: pygame.Surface):
     users = get_users()
     users.sort(key=lambda x: int(x[Constants.record_time_key]))
@@ -138,8 +99,6 @@ def score_menu(screen: pygame.Surface):
             [str(i + 1) if users[i][Constants.record_time_key] != ' ' else ' ', users[i][Constants.record_time_key],
              users[i][Constants.name_key]])
     color = (153, 255, 153)
-    global draw
-    global check
 
     def draw(args):
         texts = args[0]
@@ -159,17 +118,15 @@ def score_menu(screen: pygame.Surface):
             pygame.quit()
             sys.exit()
 
-    return [texts, color]
+    args = [texts, color]
+    add_button_back(args, draw, check, screen)
 
 
-@add_button_back()
 def change_map(screen: pygame.Surface, all_sprites):
     maps = get_maps()
     font = pygame.font.Font(None, 30)
     size = screen.get_size()
     current_map = 0
-    global draw
-    global check
 
     def draw(args):
         for i in range(len(maps)):
@@ -197,6 +154,36 @@ def change_map(screen: pygame.Surface, all_sprites):
                 return 'return'
         args[0] = current_map
 
-    return [current_map, all_sprites]
+    args = [current_map, all_sprites]
+    add_button_back(args, draw, check, screen)
 
 
+def add_button_back(args_for_func, draw, check, screen, back_image=None):
+    if back_image is None:
+        back_image = pygame.Surface(screen.get_size(), pygame.SRCALPHA, 32)
+        pygame.draw.rect(back_image, (0, 0, 0), (0, 0, *screen.get_size()))
+    elif back_image == 'screen':
+        back_image = pygame.Surface(screen.get_size(), pygame.SRCALPHA, 32)
+        back_image = screen.convert(back_image)
+    font = pygame.font.Font(None, 30)
+    string_render_button = font.render('back', 1, pygame.Color('blue'))
+    rect_QUIT = string_render_button.get_rect()
+    rect_QUIT.x = 20
+    rect_QUIT.y = 20
+    rect_QUIT.w += 10
+    rect_QUIT.h += 20
+
+    while True:
+        for event in pygame.event.get():
+            command = check(event, args_for_func)
+            if command == 'return':
+                return
+            if event.type == pygame.MOUSEBUTTONUP:
+                if (event.pos[0] in list(range(10, 10 + rect_QUIT.w)) and
+                        event.pos[1] in range(10, 10 + rect_QUIT.h)):
+                    screen.fill((0, 0, 0))
+                    return
+        screen.blit(back_image, back_image.get_rect())
+        screen.blit(string_render_button, rect_QUIT)
+        draw(args_for_func)
+        pygame.display.flip()
