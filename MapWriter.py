@@ -1,4 +1,5 @@
 from pacmansprites import *
+from BaseClasses import PacmanNotStated
 
 
 def load_level(filename):
@@ -7,10 +8,6 @@ def load_level(filename):
     with open(filename, 'r') as mapFile:
         level_map = [line.strip() for line in mapFile]
 
-    # и подсчитываем максимальную длину
-    max_width = max(map(len, level_map))
-
-    # дополняем каждую строку пустыми клетками ('.')
     return level_map
 
 
@@ -27,5 +24,7 @@ def generate_level(level, all_sprites):
                 red_ghost = Ghost('red_ghost', x, y, all_sprites)
             elif level[y][x] == '.':
                 Coin(x, y, [all_sprites])
+    if new_player is None:
+        raise PacmanNotStated
     # вернем игрока, а также размер поля в клетках
     return new_player, x, y

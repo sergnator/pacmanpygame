@@ -17,6 +17,10 @@ class NotFoundFile(BasePacmanExceptionsGroup):
     pass
 
 
+class PacmanNotStated(BasePacmanExceptionsGroup):
+    pass
+
+
 class HelpFunctions:
     @staticmethod
     def load_image(name, colorkey=None):

@@ -87,7 +87,7 @@ def start_menu(screen: pygame.Surface, all_sprites):
 
 def score_menu(screen: pygame.Surface):
     users = get_users()
-    users.sort(key=lambda x: int(x[Constants.record_time_key]))
+    users.sort(key=lambda x: int(x[Constants.record_time_key]), reverse=True)
     font = pygame.font.Font(None, 30)
 
     while len(users) < 3:

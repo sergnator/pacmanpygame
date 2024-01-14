@@ -198,3 +198,11 @@ class Coin(pygame.sprite.Sprite):
         self.rect.x = CellWidth * x
         self.rect.y = CellHeight * y
 
+    def update(self):
+        pacman = None
+        for sprite in self.groups()[0].sprites():
+            if isinstance(sprite, Pacman):
+                pacman = sprite
+                break
+        if pygame.sprite.collide_mask(pacman, self):
+            self.remove(self.groups()[0])

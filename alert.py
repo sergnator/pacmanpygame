@@ -38,11 +38,9 @@ def game_over(screen: pygame.Surface):
     add_button_back(args, draw, check, screen, back_image='screen')
 
 
-def game_win(screen, record, username, map):
-    global check
-    global draw
-    res = new_record(username, map, record)
-    intro = ['CONGRATULATIONS!!!', record]
+def game_win(screen, record, username,):
+    res = new_record(username, record)
+    intro = ['CONGRATULATIONS!!!', str(record)]
     sound = pygame.mixer.Sound(Constants.Music + 'gamewin.mp3')
     if res != -1:
         intro.append('NEW RECORD!!!')
