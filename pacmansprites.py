@@ -1,5 +1,5 @@
 import pygame
-
+from random import randint
 from BaseClasses import HelpFunctions
 from Constants import CellWidth, CellHeight
 
@@ -52,11 +52,9 @@ class Pacman(AnimatedSprite):
         self.group = group
 
     def update(self):
-        print(2)
-        spritess = self.groups()
         if self.c % 3 == 0:
             super().update()
-            print(1)
+
         if self.vx < 0:
             self.image = pygame.transform.flip(self.frames[self.cur_frame], True, False)
             if self.c % 5 == 0:
@@ -93,22 +91,102 @@ class Pacman(AnimatedSprite):
 
 
 class Ghost(AnimatedSprite):
+    c = 0
 
     def __init__(self, name, x, y, group):
         surface = HelpFunctions.load_image(f"{name}.png")
         super().__init__(surface, 2, 1, x, y, group, is_gost=True)
-        self.vx = 0
-        self.vy = 0
+        a = randint(1, 4)
+        if a == 1:
+            self.vx = 1
+            self.vy = 0
+        if a == 2:
+            self.vx = -1
+            self.vy = 0
+        if a == 3:
+            self.vx = 0
+            self.vy = 1
+        if a == 4:
+            self.vx = 0
+            self.vy = -1
         self.group = group
 
     def update(self):
-        super().update()
-        self.rect = self.rect.move(self.vx, self.vy)
+        if self.c % 3 == 0:
+            super().update()
+
         if self.vx < 0:
             self.image = pygame.transform.flip(self.frames[self.cur_frame], True, False)
-
-        elif self.vx >= 0:
+            if self.c % 5 == 0:
+                for sprite in self.groups()[0].sprites():
+                    if sprite.rect.x + CellWidth - 5 == self.rect.x + 10 and sprite.rect.y - 5 == self.rect.y + 10:
+                        self.c += 1
+                        a = randint(1, 3)
+                        if a == 1:
+                            self.vx = 0
+                            self.vy = 1
+                        if a == 2:
+                            self.vx = 0
+                            self.vy = -1
+                        if a == 3:
+                            self.vx = 1
+                            self.vy = 0
+                        return
+                self.rect = self.rect.move(-CellWidth, 0)
+        elif self.vx > 0:
             self.image = self.frames[self.cur_frame]
+            if self.c % 5 == 0:
+                for sprite in self.groups()[0].sprites():
+                    if sprite.rect.x - CellWidth - 5 == self.rect.x + 10 and sprite.rect.y - 5 == self.rect.y + 10:
+                        self.c += 1
+                        a = randint(1, 3)
+                        if a == 1:
+                            self.vx = 0
+                            self.vy = 1
+                        if a == 2:
+                            self.vx = 0
+                            self.vy = -1
+                        if a == 3:
+                            self.vx = -1
+                            self.vy = 0
+                        return
+                self.rect = self.rect.move(CellWidth, 0)
+        elif self.vy < 0:
+            if self.c % 5 == 0:
+                for sprite in self.groups()[0].sprites():
+                    if sprite.rect.y + CellHeight - 5 == self.rect.y + 10 and sprite.rect.x - 5 == self.rect.x + 10:
+                        print(1)
+                        self.c += 1
+                        a = randint(1, 3)
+                        if a == 1:
+                            self.vx = 0
+                            self.vy = 1
+                        if a == 2:
+                            self.vx = -1
+                            self.vy = 0
+                        if a == 3:
+                            self.vx = 1
+                            self.vy = 0
+                        return
+                self.rect = self.rect.move(0, -CellHeight)
+        elif self.vy > 0:
+            if self.c % 5 == 0:
+                for sprite in self.groups()[0].sprites():
+                    if sprite.rect.y - CellHeight - 5 == self.rect.y + 10 and sprite.rect.x - 5 == self.rect.x + 10:
+                        self.c += 1
+                        a = randint(1, 3)
+                        if a == 1:
+                            self.vx = 1
+                            self.vy = 0
+                        if a == 2:
+                            self.vx = -1
+                            self.vy = 0
+                        if a == 3:
+                            self.vx = 0
+                            self.vy = -1
+                        return
+                self.rect = self.rect.move(0, CellHeight)
+        self.c += 1
 
 
 class Coin(pygame.sprite.Sprite):
