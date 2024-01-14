@@ -52,14 +52,17 @@ class Pacman(AnimatedSprite):
         self.group = group
 
     def update(self):
+        print(2)
         spritess = self.groups()
         if self.c % 3 == 0:
             super().update()
+            print(1)
         if self.vx < 0:
             self.image = pygame.transform.flip(self.frames[self.cur_frame], True, False)
             if self.c % 5 == 0:
                 for sprite in self.groups()[0].sprites():
                     if sprite.rect.x + CellWidth - 5 == self.rect.x and sprite.rect.y - 5 == self.rect.y:
+                        self.c += 1
                         return
                 self.rect = self.rect.move(-CellWidth, 0)
         elif self.vx > 0:
@@ -67,6 +70,7 @@ class Pacman(AnimatedSprite):
             if self.c % 5 == 0:
                 for sprite in self.groups()[0].sprites():
                     if sprite.rect.x - CellWidth - 5 == self.rect.x and sprite.rect.y - 5 == self.rect.y:
+                        self.c += 1
                         return
                 self.rect = self.rect.move(CellWidth, 0)
         elif self.vy < 0:
@@ -74,6 +78,7 @@ class Pacman(AnimatedSprite):
             if self.c % 5 == 0:
                 for sprite in self.groups()[0].sprites():
                     if sprite.rect.y + CellHeight - 5 == self.rect.y and sprite.rect.x - 5 == self.rect.x:
+                        self.c += 1
                         return
                 self.rect = self.rect.move(0, -CellHeight)
         elif self.vy > 0:
@@ -81,6 +86,7 @@ class Pacman(AnimatedSprite):
             if self.c % 5 == 0:
                 for sprite in self.groups()[0].sprites():
                     if sprite.rect.y - CellHeight - 5 == self.rect.y and sprite.rect.x - 5 == self.rect.x:
+                        self.c += 1
                         return
                 self.rect = self.rect.move(0, CellHeight)
         self.c += 1
