@@ -22,7 +22,7 @@ def generate_level(level, all_sprites):
                 new_player = Pacman(x, y, all_sprites)
             elif level[y][x] == 'R':
                 red_ghost = Ghost('red_ghost', x, y, all_sprites)
-            elif level[y][x] == '.':
+            elif level[y][x] == ' ':
                 Coin(x, y, [all_sprites])
     if new_player is None:
         raise PacmanNotStated
