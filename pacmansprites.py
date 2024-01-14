@@ -55,30 +55,34 @@ class Pacman(AnimatedSprite):
         spritess = self.groups()
         if self.c % 3 == 0:
             super().update()
-        for sprite in spritess[0].sprites():
-            if sprite != self:
-                if pygame.sprite.collide_rect(self, sprite):
-                    if self.vx > 0:
-                        self.rect.x -= self.vx
-                        self.vx = 0
-                    elif self.vx < 0:
-                        self.rect.x -= self.vx
-                        self.vx = 0
-                    elif self.vy > 0:
-                        self.rect.y -= self.vy
-                        self.vy = 0
-                    elif self.vy < 0:
-                        self.rect.y -= self.vy
-                        self.vy = 0
-        self.rect = self.rect.move(self.vx, self.vy)
         if self.vx < 0:
             self.image = pygame.transform.flip(self.frames[self.cur_frame], True, False)
+            if self.c % 5 == 0:
+                for sprite in self.groups()[0].sprites():
+                    if sprite.rect.x + CellWidth - 5 == self.rect.x and sprite.rect.y - 5 == self.rect.y:
+                        return
+                self.rect = self.rect.move(-CellWidth, 0)
         elif self.vx > 0:
             self.image = self.frames[self.cur_frame]
+            if self.c % 5 == 0:
+                for sprite in self.groups()[0].sprites():
+                    if sprite.rect.x - CellWidth - 5 == self.rect.x and sprite.rect.y - 5 == self.rect.y:
+                        return
+                self.rect = self.rect.move(CellWidth, 0)
         elif self.vy < 0:
             self.image = pygame.transform.rotate(self.frames[self.cur_frame], 90)
+            if self.c % 5 == 0:
+                for sprite in self.groups()[0].sprites():
+                    if sprite.rect.y + CellHeight - 5 == self.rect.y and sprite.rect.x - 5 == self.rect.x:
+                        return
+                self.rect = self.rect.move(0, -CellHeight)
         elif self.vy > 0:
             self.image = pygame.transform.rotate(self.frames[self.cur_frame], -90)
+            if self.c % 5 == 0:
+                for sprite in self.groups()[0].sprites():
+                    if sprite.rect.y - CellHeight - 5 == self.rect.y and sprite.rect.x - 5 == self.rect.x:
+                        return
+                self.rect = self.rect.move(0, CellHeight)
         self.c += 1
 
 

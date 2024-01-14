@@ -19,20 +19,20 @@ while game:
             game = False
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
-                pacman.vy = -7
+                pacman.vy = -1
                 pacman.vx = 0
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_DOWN:
-                pacman.vy = 7
+                pacman.vy = 1
                 pacman.vx = 0
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
                 pacman.vy = 0
-                pacman.vx = -7
+                pacman.vx = -1
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RIGHT:
                 pacman.vy = 0
-                pacman.vx = 7
+                pacman.vx = 1
     pygame.time.Clock().tick(24)
     screen.fill((25, 25, 25))
     all_sprites.draw(screen)
