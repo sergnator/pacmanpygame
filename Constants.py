@@ -1,7 +1,5 @@
 DataBaseOfScore = 'data/databases/score.sqlite'
 Maps = 'data/maps/'
-WinResult = 1
-LoseResult = 0
 Images = 'data/images/'
 id_key = 0
 name_key = 1
