@@ -1,5 +1,8 @@
 from start_menu import *
+import pygame
 
+
+# все сообщения которые выводятся на экран
 
 def game_over(screen: pygame.Surface):
     x = 0
@@ -38,7 +41,7 @@ def game_over(screen: pygame.Surface):
     add_button_back(args, draw, check, screen, back_image='screen')
 
 
-def game_win(screen, record, username,):
+def game_win(screen, record, username, ):
     res = new_record(username, record)
     intro = ['CONGRATULATIONS!!!', str(record)]
     sound = pygame.mixer.Sound(Constants.Music + 'gamewin.mp3')

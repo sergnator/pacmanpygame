@@ -1,12 +1,15 @@
-import pygame.event
+# pip install -r requirements.txt
+import pygame
 
-from start_menu import *
-from pacmansprites import *
+from start_menu import get_name, start_menu
+from pacmansprites import Coin, Ghost, Wall
 from alert import game_win, game_over
+from setup_exeption_handler import setup_handler
 
 pygame.init()
 screen = pygame.display.set_mode((1000, 1000))
 name = get_name(screen)
+setup_handler()
 
 
 def main():

@@ -21,6 +21,7 @@ class PacmanNotStated(BasePacmanExceptionsGroup):
     pass
 
 
+# вспомогательные функции
 class HelpFunctions:
     @staticmethod
     def load_image(name, colorkey=None):
