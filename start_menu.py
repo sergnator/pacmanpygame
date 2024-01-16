@@ -1,10 +1,13 @@
 import sys
 
+import pygame
+
 from MapWriter import generate_level
 from filesefun import *
 
 
 def get_name(screen: pygame.Surface):
+    """выводит окно получения имени"""
     intro = 'input text'
     enter = 'press enter'
     input_text = '><'
@@ -19,12 +22,14 @@ def get_name(screen: pygame.Surface):
                 sys.exit()
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_RETURN:
-                    return input_text[1:-1]
+                    if input_text != '><':
+                        return input_text[1:-1]
                 elif event.key == pygame.K_BACKSPACE:
                     if input_text != '><':
                         input_text = input_text[:-2] + '<'
                 else:
-                    input_text = input_text[:-1] + event.unicode + '<'
+                    if event.unicode in "qwertyuopasdfghjklzxcvbnmцукенгшщзфывапролдячсмитьб":
+                        input_text = input_text[:-1] + event.unicode + '<'
         screen.fill((0, 0, 0))
         string_ = font.render(input_text, 1, pygame.Color('blue'))
         rect = string_.get_rect()
@@ -46,6 +51,7 @@ def get_name(screen: pygame.Surface):
 
 
 def start_menu(screen: pygame.Surface, all_sprites):
+    """запуск стартого меню"""
     menu = ['start', 'score', 'quit']
     screen.fill((0, 0, 0))
     size = screen.get_size()
@@ -72,7 +78,9 @@ def start_menu(screen: pygame.Surface, all_sprites):
                         pygame.quit()
                         sys.exit()
                     elif current_text % len(menu) == 0:
-                        return change_map(screen, all_sprites)
+                        a = change_map(screen, all_sprites)
+                        if a is not None:
+                            return a
 
         for word in menu:
             color = 'yellow' if menu.index(word) == current_text % len(menu) else 'blue'
@@ -86,6 +94,7 @@ def start_menu(screen: pygame.Surface, all_sprites):
 
 
 def score_menu(screen: pygame.Surface):
+    """окно рекордов"""
     users = get_users()
     users.sort(key=lambda x: int(x[Constants.record_time_key]), reverse=True)
     font = pygame.font.Font(None, 30)
@@ -122,6 +131,7 @@ def score_menu(screen: pygame.Surface):
 
 
 def change_map(screen: pygame.Surface, all_sprites):
+    """окно выбора карт"""
     maps = get_maps()
     font = pygame.font.Font(None, 30)
     size = screen.get_size()
@@ -158,6 +168,7 @@ def change_map(screen: pygame.Surface, all_sprites):
 
 
 def add_button_back(args_for_func, draw, check, screen, back_image=None):
+    """добавление кнопки назад"""
     if back_image is None:
         back_image = pygame.Surface(screen.get_size(), pygame.SRCALPHA, 32)
         pygame.draw.rect(back_image, (0, 0, 0), (0, 0, *screen.get_size()))
@@ -182,6 +193,10 @@ def add_button_back(args_for_func, draw, check, screen, back_image=None):
             if event.type == pygame.MOUSEBUTTONUP:
                 if (event.pos[0] in list(range(10, 10 + rect_QUIT.w)) and
                         event.pos[1] in range(10, 10 + rect_QUIT.h)):
+                    screen.fill((0, 0, 0))
+                    return
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_ESCAPE:
                     screen.fill((0, 0, 0))
                     return
         screen.blit(back_image, back_image.get_rect())
