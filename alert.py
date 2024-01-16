@@ -4,10 +4,11 @@ import pygame
 
 # все сообщения которые выводятся на экран
 
-def game_over(screen: pygame.Surface):
+def game_over(screen: pygame.Surface, username, record):
     x = 0
     clock = pygame.time.Clock()
     sound = pygame.mixer.Sound(Constants.Music + 'gameover.mp3')
+    res = new_record(username, record)
 
     def check(event, args):
         if event.type == pygame.QUIT:

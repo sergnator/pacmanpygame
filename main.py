@@ -70,7 +70,7 @@ def main():
             screen.fill((25, 25, 25))
             all_sprites.update()
             all_sprites.draw(screen)
-            game_over(screen)
+            game_over(screen, name, coins_i)
             return
     pygame.quit()
 
