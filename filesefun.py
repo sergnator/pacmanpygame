@@ -1,6 +1,7 @@
 import sqlite3
-
-from BaseClasses import *
+import Constants
+import os
+from BaseClasses import NameNotTaken
 
 
 def new_user(username):

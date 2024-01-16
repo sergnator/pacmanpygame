@@ -117,7 +117,7 @@ class Ghost(AnimatedSprite):
 
         if self.vx < 0:
             self.image = pygame.transform.flip(self.frames[self.cur_frame], True, False)
-            if self.c % 5 == 0:
+            if self.c % 4 == 0:
                 for sprite in self.groups()[0].sprites():
                     if sprite.rect.x + CellWidth - 5 == self.rect.x + 10 and sprite.rect.y - 5 == self.rect.y + 10:
                         self.c += 1
@@ -135,7 +135,7 @@ class Ghost(AnimatedSprite):
                 self.rect = self.rect.move(-CellWidth, 0)
         elif self.vx > 0:
             self.image = self.frames[self.cur_frame]
-            if self.c % 5 == 0:
+            if self.c % 4 == 0:
                 for sprite in self.groups()[0].sprites():
                     if sprite.rect.x - CellWidth - 5 == self.rect.x + 10 and sprite.rect.y - 5 == self.rect.y + 10:
                         self.c += 1
@@ -152,7 +152,7 @@ class Ghost(AnimatedSprite):
                         return
                 self.rect = self.rect.move(CellWidth, 0)
         elif self.vy < 0:
-            if self.c % 5 == 0:
+            if self.c % 4 == 0:
                 for sprite in self.groups()[0].sprites():
                     if sprite.rect.y + CellHeight - 5 == self.rect.y + 10 and sprite.rect.x - 5 == self.rect.x + 10:
                         print(1)
@@ -170,7 +170,7 @@ class Ghost(AnimatedSprite):
                         return
                 self.rect = self.rect.move(0, -CellHeight)
         elif self.vy > 0:
-            if self.c % 5 == 0:
+            if self.c % 4 == 0:
                 for sprite in self.groups()[0].sprites():
                     if sprite.rect.y - CellHeight - 5 == self.rect.y + 10 and sprite.rect.x - 5 == self.rect.x + 10:
                         self.c += 1
