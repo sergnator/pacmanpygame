@@ -1,21 +1,19 @@
 import sqlite3
 import Constants
 import os
-from BaseClasses import NameNotTaken
 
 
 def new_user(username):
     """создание нового пользователя"""
     con = sqlite3.connect(Constants.DataBaseOfScore)
     cur = con.cursor()
-    req = f"insert into score(name, max_time, map_of_max_time) values('{username}', 'unknown', 'unknown')"
-    ex = False
-    try:
-        cur.execute(req)
-    except sqlite3.IntegrityError:
-        ex = True
-    if ex:
-        raise NameNotTaken('имя занято')
+    users = get_users()
+    for user in users:
+        if username == user[Constants.name_key]:
+            con.close()
+            return
+    req = f"insert into score(name, max_score) values('{username}', 0)"
+    cur.execute(req)
     con.commit()
     con.close()
 
@@ -27,9 +25,9 @@ def new_record(username, record):
         if el[Constants.name_key] == username:
             if int(el[Constants.record_time_key]) >= int(record):
                 return -1
+            else:
+                break
     req = f"update score\nset max_score = '{record}'\nwhere name = '{username}'"
-    if username not in users:
-        req = f"insert into score (name, max_score) values('{username}', '{record}')"
     con = sqlite3.connect(Constants.DataBaseOfScore)
     cur = con.cursor()
     cur.execute(req)

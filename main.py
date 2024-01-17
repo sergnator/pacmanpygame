@@ -5,11 +5,13 @@ from start_menu import get_name, start_menu
 from pacmansprites import Coin, Ghost, Wall
 from alert import game_win, game_over
 from setup_exeption_handler import setup_handler
+from filesefun import new_user
 
 pygame.init()
 screen = pygame.display.set_mode((1000, 1000))
 name = get_name(screen)
 setup_handler()
+new_user(name)
 
 
 def main():
@@ -70,7 +72,7 @@ def main():
             screen.fill((25, 25, 25))
             all_sprites.update()
             all_sprites.draw(screen)
-            game_over(screen, name, coins_i - len(all_sprites.sprites()) - ghost_i - pacman_i - wall_i)
+            game_over(screen, name, coins_i - (len(all_sprites.sprites()) - ghost_i - pacman_i - wall_i))
             return
     pygame.quit()
 

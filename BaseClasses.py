@@ -9,10 +9,6 @@ class BasePacmanExceptionsGroup(Exception):
     pass
 
 
-class NameNotTaken(BasePacmanExceptionsGroup):
-    pass
-
-
 class NotFoundFile(BasePacmanExceptionsGroup):
     pass
 

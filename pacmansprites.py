@@ -155,7 +155,6 @@ class Ghost(AnimatedSprite):
             if self.c % 4 == 0:
                 for sprite in self.groups()[0].sprites():
                     if sprite.rect.y + CellHeight - 5 == self.rect.y + 10 and sprite.rect.x - 5 == self.rect.x + 10:
-                        print(1)
                         self.c += 1
                         a = randint(1, 3)
                         if a == 1:
