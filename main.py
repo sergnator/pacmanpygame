@@ -1,5 +1,5 @@
 # pip install -r requirements.txt
-import pygame
+import pygame       
 
 from start_menu import get_name, start_menu
 from pacmansprites import Coin, Ghost, Wall
@@ -35,6 +35,9 @@ def main():
             ghosts.append(sprite)
         elif isinstance(sprite, Wall):
             wall_i += 1
+    pygame.mixer.music.load("data/music/fon.mp3")
+    pygame.mixer.music.set_volume(0.5)
+    pygame.mixer.music.play(-1, 0.0, )
 
     game = True
     while game:
