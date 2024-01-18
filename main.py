@@ -39,7 +39,7 @@ def main():
         elif isinstance(sprite, Wall):
             wall_i += 1
     pygame.mixer.music.load("data/music/fon.mp3")
-    pygame.mixer.music.set_volume(0.5)
+    pygame.mixer.music.set_volume(0.25)
     pygame.mixer.music.play(-1, 0.0, )
 
     while True:
