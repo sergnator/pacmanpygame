@@ -30,6 +30,10 @@ def generate_level(level, all_sprites):
                 orange_ghost = Ghost('orange_ghost', x, y, all_sprites)
             elif level[y][x] == ' ':
                 Coin(x, y, [all_sprites])
+            elif level[y][x] == ':':
+                Wall(x, y, all_sprites, color='red')
+            elif level[y][x] == ';':
+                Wall(x, y, all_sprites, color='black')
     if new_player is None:
         raise PacmanNotStated
     # вернем игрока, а также размер поля в клетках

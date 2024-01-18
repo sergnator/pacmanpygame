@@ -5,10 +5,10 @@ from Constants import CellWidth, CellHeight
 
 
 class Wall(pygame.sprite.Sprite):
-    def __init__(self, x, y, group):
+    def __init__(self, x, y, group, color='blue'):
         super().__init__(group)
         self.image = pygame.Surface((CellWidth, CellHeight), pygame.SRCALPHA, 32)
-        pygame.draw.rect(self.image, pygame.Color('blue'), (0, 0, CellWidth - 10, CellHeight - 10))
+        pygame.draw.rect(self.image, pygame.Color(color), (0, 0, CellWidth - 10, CellHeight - 10))
         self.rect = pygame.Rect(x * CellWidth + 5, y * CellHeight + 5, CellWidth, CellHeight)
 
 

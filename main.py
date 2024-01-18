@@ -1,11 +1,14 @@
 # pip install -r requirements.txt
-import pygame       
+import sys
+
+import pygame
 
 from start_menu import get_name, start_menu
 from pacmansprites import Coin, Ghost, Wall
 from alert import game_win, game_over
 from setup_exeption_handler import setup_handler
 from filesefun import new_user
+
 
 pygame.init()
 screen = pygame.display.set_mode((1000, 1000))
@@ -39,11 +42,11 @@ def main():
     pygame.mixer.music.set_volume(0.5)
     pygame.mixer.music.play(-1, 0.0, )
 
-    game = True
-    while game:
+    while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                game = False
+                pygame.quit()
+                sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP:
                     pacman.vy = -1
@@ -69,21 +72,18 @@ def main():
             screen.fill((25, 25, 25))
             all_sprites.update()
             all_sprites.draw(screen)
+            pygame.mixer.music.stop()
             game_win(screen, coins_i, name)
             return
         elif any(filter(is_game_over, ghosts)):
             screen.fill((25, 25, 25))
             all_sprites.update()
             all_sprites.draw(screen)
+            pygame.mixer.music.stop()
             game_over(screen, name, coins_i - (len(all_sprites.sprites()) - ghost_i - pacman_i - wall_i))
+
             return
-    pygame.quit()
 
 
-game = True
-while game:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            game = False
+while True:
     main()
-pygame.quit()
